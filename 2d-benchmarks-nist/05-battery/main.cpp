@@ -24,7 +24,7 @@ const bool HERMES_VISUALIZATION = true;
 // Set to "true" to enable VTK output.
 const bool VTK_VISUALIZATION = false;             
 // Initial polynomial degree of mesh elements.
-const int P_INIT = 3;
+const int P_INIT = 2;
 // Number of initial uniform mesh refinements.   
 const int INIT_REF_NUM = 1;                       
 // This is a quantitative parameter of the adapt(...) function and
@@ -52,10 +52,10 @@ const CandList CAND_LIST = H2D_HP_ANISO;
 // their notoriously bad performance.
 const int MESH_REGULARITY = -1;                   
 // Stopping criterion for adaptivity.
-const double ERR_STOP = 0.1;                      
+const double ERR_STOP = 1.0;                      
 // This parameter influences the selection of candidates in hp-adaptivity. 
 // Default value is 1.0.
-const double CONV_EXP = 1.0;                      
+const double CONV_EXP = 0.3;                      
 // Adaptivity process stops when the number of degrees of freedom grows
 // over this limit. This is to prevent h-adaptivity to go on forever.
 const int NDOF_STOP = 60000;                      
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 
   // Initialize weak formulation.
   CustomWeakFormPoisson wf("e1", "e2", "e3", "e4", "e5", 
-                           "Bdy_left", "Bdy_top", "Bdy_right", "Bdy_bottom");
+                           "Bdy_left", "Bdy_top", "Bdy_right", "Bdy_bottom", &mesh);
 
   // Initialize coarse and fine mesh solution.
   Solution<double> sln, ref_sln;

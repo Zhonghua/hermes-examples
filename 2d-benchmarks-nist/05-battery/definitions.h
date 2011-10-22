@@ -10,8 +10,8 @@ using namespace Hermes::Hermes2D::RefinementSelectors;
 class CustomMatrixFormVol : public MatrixFormVol<double>
 {
 public:
-  CustomMatrixFormVol(int i, int j) 
-      : MatrixFormVol<double>(i, j) {};
+  CustomMatrixFormVol(int i, int j, Mesh* mesh) 
+      : MatrixFormVol<double>(i, j), mesh(mesh) {};
 
   template<typename Real, typename Scalar>
   Scalar matrix_form(int n, double *wt, Func<Scalar> *u_ext[], Func<Real> *u,
@@ -22,12 +22,14 @@ public:
 
   virtual Ord ord(int n, double *wt, Func<Ord> *u_ext[], Func<Ord> *u, Func<Ord> *v,
       Geom<Ord> *e, ExtData<Ord> *ext) const;
+
+  Mesh* mesh;
 };
 
 class CustomVectorFormVol : public VectorFormVol<double>
 {
 public:
-  CustomVectorFormVol(int i) : VectorFormVol<double>(i) {};
+  CustomVectorFormVol(int i, Mesh* mesh) : VectorFormVol<double>(i), mesh(mesh) {};
 
   template<typename Real, typename Scalar>
   Scalar vector_form(int n, double *wt, Func<Scalar> *u_ext[],
@@ -38,6 +40,8 @@ public:
 
   virtual Ord ord(int n, double *wt, Func<Ord> *u_ext[], Func<Ord> *v, 
       Geom<Ord> *e, ExtData<Ord> *ext) const;
+
+  Mesh* mesh;
 };
 
 class CustomMatrixFormSurf : public MatrixFormSurf<double>
@@ -81,7 +85,9 @@ public:
                         std::string omega_3, std::string omega_4, 
                         std::string omega_5, std::string bdy_left, 
                         std::string bdy_top, std::string bdy_right, 
-                        std::string bdy_bottom);
+                        std::string bdy_bottom, Mesh* mesh);
+
+  Mesh* mesh;
 
   const std::string omega_1;
   const std::string omega_2;
